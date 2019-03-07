@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-Jhin Jhin;
-
 Jhin::Jhin()
 {
     BP = BrickPi3();
