@@ -1,7 +1,8 @@
 #include "Jhin.h"
 
-#include <stdio.h>
-#include <unistd.h>
+#include <stdio.h>      // for printf
+#include <unistd.h>     // for sleep
+#include <signal.h>     // for catching exit signals
 
 Jhin::Jhin()
 {
