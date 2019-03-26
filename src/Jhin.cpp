@@ -34,6 +34,17 @@ void Jhin::print_info()
     printf("3.3v voltage    : %.3f\n", BP.get_voltage_3v3());
 }
 
+void Jhin::print_help()
+{
+    std::cout << "Jhin v" << xstr(jhin_VERSION) << "                Manual"
+              << "\n\n"
+              << "COMMANDS:\n"
+              << "  help - print this help page\n"
+              << "  info - print info about device (serial/voltage/etc)\n"
+              << "  test - execute test code\n"
+              << std::endl;
+}
+
 void Jhin::test()
 {
     BP.set_motor_dps(PORT_A, 50000);

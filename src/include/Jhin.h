@@ -8,6 +8,7 @@ class Jhin
   public:
     Jhin();
     void print_info();
+    void print_help();
     void test();
 
   private:
