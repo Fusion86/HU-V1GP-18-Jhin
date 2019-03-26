@@ -29,6 +29,10 @@ int main(int argc, char *argv[])
     {
         j.test();
     }
+    else if (strcmp(argv[1], "linerider") == 0)
+    {
+        j.linerider();
+    }
     else
     {
         std::cerr << "Invalid argument" << std::endl;

@@ -42,12 +42,35 @@ void Jhin::print_help()
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
               << "  test - execute test code\n"
+              << "  linerider - follow line\n"
               << std::endl;
 }
 
 void Jhin::test()
 {
-    BP.set_motor_dps(PORT_A, 50000);
+    BP.set_motor_dps(PORT_A, 90);
     sleep(2);
     BP.set_motor_power(PORT_A, 0);
+}
+
+void Jhin::linerider()
+{
+    // Left wheel = M B
+    // Right wheel = M C
+
+    std::cout << "Press s to stop" << std::endl;
+
+    BP.set_motor_dps(PORT_B, 90);
+    BP.set_motor_dps(PORT_C, 90);
+
+    while (true)
+    {
+        int ch = std::cin.get();
+
+        if (ch == 115) // If cc == 's'
+            break;
+    }
+
+    BP.set_motor_power(PORT_B, 0);
+    BP.set_motor_power(PORT_C, 0);
 }
