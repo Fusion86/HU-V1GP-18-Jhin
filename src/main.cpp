@@ -4,14 +4,14 @@
 
 int main(int argc, char *argv[])
 {
+    Jhin j;
+
     if (argc < 2)
     {
         std::cerr << "No argument given" << std::endl;
         j.print_help();
         return 1;
     }
-
-    Jhin j;
 
     if (strcmp(argv[1], "version") == 0)
     {
