@@ -58,11 +58,18 @@ void Jhin::linerider()
 
     std::cout << "Press s to stop" << std::endl;
 
-    BP.set_motor_dps(PORT_B, 500 * 1.02);
-    BP.set_motor_dps(PORT_C, 500);
+    sensor_light_t light;
+    BP.set_sensor_type(PORT_3, TYPE_SENSOR_LIGHT_ON)
 
     while (true)
     {
+        BP.get_sensor(PORT_3, &light);
+
+        if (light.reflected >= 40) {
+            BP.set_motor_dps(PORT_B, 500 * 1.02);
+        } else if (light.reflected < 40) {
+            BP.set_motor_dps(PORT_C, 500);
+        }
         int ch = std::cin.get();
 
         if (ch == 115) // If cc == 's'
