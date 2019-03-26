@@ -59,7 +59,7 @@ void Jhin::linerider()
     std::cout << "Press s to stop" << std::endl;
 
     sensor_light_t light;
-    BP.set_sensor_type(PORT_3, TYPE_SENSOR_LIGHT_ON)
+    BP.set_sensor_type(PORT_3, TYPE_SENSOR_NXT_LIGHT_ON)
 
     while (true)
     {
