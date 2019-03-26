@@ -74,3 +74,8 @@ void Jhin::linerider()
     BP.set_motor_power(PORT_B, 0);
     BP.set_motor_power(PORT_C, 0);
 }
+
+void Jhin::reset()
+{
+    BP.reset_all(); // Reset everything so there are no run-away motors
+}

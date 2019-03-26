@@ -13,6 +13,7 @@ class Jhin
     void print_help();
     void test();
     void linerider();
+    void reset();
 
   private:
     BrickPi3 BP;

@@ -2,13 +2,18 @@
 
 #include "Jhin.h"
 
+Jhin j;
+
+void exit_signal_handler(int signo);
+
 int main(int argc, char *argv[])
 {
-    Jhin j;
+    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
 
     if (argc < 2)
     {
-        std::cerr << "No argument given \n" << std::endl;
+        std::cerr << "No argument given \n"
+                  << std::endl;
         j.print_help();
         return 1;
     }
@@ -40,4 +45,13 @@ int main(int argc, char *argv[])
     }
 
     return 0;
+}
+
+void exit_signal_handler(int signo)
+{
+    if (signo == SIGINT)
+    {
+        j.reset();
+        exit(-2);
+    }
 }
