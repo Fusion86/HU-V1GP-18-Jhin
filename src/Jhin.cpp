@@ -63,7 +63,7 @@ void Jhin::linerider()
 
     while (true)
     {
-        BP.get_sensor(PORT_3, &light);
+        BP.get_sensor(PORT_3, light);
 
         if (light.reflected >= 40) {
             BP.set_motor_dps(PORT_B, 500 * 1.02);
