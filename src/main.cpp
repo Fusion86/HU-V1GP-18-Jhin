@@ -8,12 +8,16 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        std::cerr << "No argument given" << std::endl;
+        std::cerr << "No argument given \n" << std::endl;
         j.print_help();
         return 1;
     }
 
-    if (strcmp(argv[1], "version") == 0)
+    if (strcmp(argv[1], "help") == 0)
+    {
+        j.print_help();
+    }
+    else if (strcmp(argv[1], "version") == 0)
     {
         std::cout << "Jhin v" << xstr(jhin_VERSION) << std::endl;
     }
