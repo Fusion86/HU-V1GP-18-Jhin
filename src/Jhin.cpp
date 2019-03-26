@@ -60,7 +60,7 @@ void Jhin::linerider()
 
     std::cout << "Press s to stop" << std::endl;
 
-    BP.set_motor_dps(PORT_B, 200);
+    BP.set_motor_dps(PORT_B, 1000);
     BP.set_motor_dps(PORT_C, 500000);
 
     while (true)
@@ -73,7 +73,4 @@ void Jhin::linerider()
 
     BP.set_motor_power(PORT_B, 0);
     BP.set_motor_power(PORT_C, 0);
-
-    BP.set_motor_dps(PORT_B, 200);
-    BP.set_motor_dps(PORT_C, 500000);
 }
