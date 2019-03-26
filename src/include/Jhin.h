@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "BrickPi3.h"
 #include "Utility.h"
 
