@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#include <stdio.h>      // for printf
+#include <unistd.h>     // for sleep
+#include <signal.h>     // for catching exit signals
+
 #include "BrickPi3.h"
 #include "Utility.h"
 
