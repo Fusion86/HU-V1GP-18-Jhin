@@ -38,6 +38,10 @@ int main(int argc, char *argv[])
     {
         j.linerider();
     }
+    else if (strcmp(argv[1], "police") == 0)
+    {
+        j.police();
+    }
     else
     {
         std::cerr << "Invalid argument" << std::endl;

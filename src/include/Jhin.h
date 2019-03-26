@@ -14,6 +14,7 @@ class Jhin
     void test();
     void linerider();
     void reset();
+    void police();
 
   private:
     BrickPi3 BP;

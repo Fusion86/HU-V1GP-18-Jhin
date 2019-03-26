@@ -43,6 +43,7 @@ void Jhin::print_help()
               << "  info - print info about device (serial/voltage/etc)\n"
               << "  test - execute test code\n"
               << "  linerider - follow line\n"
+              << "  police - do a wee-ooo wee-ooo\n"
               << std::endl;
 }
 
@@ -78,4 +79,15 @@ void Jhin::linerider()
 void Jhin::reset()
 {
     BP.reset_all(); // Reset everything so there are no run-away motors
+}
+
+void Jhin::police()
+{
+    while (true)
+    {
+        BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_RED);
+        sleep(1);
+        BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_BLUE);
+        sleep(1);
+    }
 }
