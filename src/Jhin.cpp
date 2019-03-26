@@ -36,7 +36,7 @@ void Jhin::print_info()
 
 void Jhin::print_help()
 {
-    std::cout << "Jhin v" << xstr(jhin_VERSION) << "                Manual"
+    std::cout << "Jhin v" << xstr(jhin_VERSION)
               << "\n\n"
               << "COMMANDS:\n"
               << "  help - print this help page\n"
