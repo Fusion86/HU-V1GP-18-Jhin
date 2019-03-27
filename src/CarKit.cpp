@@ -1,5 +1,7 @@
 #include "CarKit.h"
 
+#include <unistd.h>
+
 CarKit::CarKit()
 {
 }
