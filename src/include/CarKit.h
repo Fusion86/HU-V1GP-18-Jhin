@@ -1,6 +1,6 @@
 #include "BrickPi3.h"
 
-typedef struct CarKitConfig
+struct CarKitConfig
 {
     int LeftWheel;
     int RightWheel;
