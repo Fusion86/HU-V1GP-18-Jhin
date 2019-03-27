@@ -62,42 +62,42 @@ void Jhin::linerider()
     sensor_ultrasonic_t sonic; // Gotta go fast
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
     BP.set_sensor_type(PORT_2, SENSOR_TYPE_NXT_ULTRASONIC);
-
-    while (true)
-    {
-        timeout = 0;
-        BP.get_sensor(PORT_2, sonic);
-        BP.get_sensor(PORT_3, light);
-
-        // Detect if there is an obstacle on the path
-        if (sonic.cm < LINERIDER_OBJECT_DISTANCE)
-        {
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-
-            Car.turn_right();
-            timeout = 500;
-        }
-        else if (light.reflected >= LINERIDER_REFLECTED_LIGHT)
-        {
-            // Robot is still on the line
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            Car.set_left_dps(LINERIDER_SPEED);
-            Car.set_right_dps(0);
-        }
-        else
-        {
-            // Robot lost the line, need to find it again
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            Car.set_left_dps(0);
-            Car.set_right_dps(LINERIDER_SPEED);
-        }
-
-        std::cout << "Ambient: " << light.ambient << std::endl;
-        std::cout << "Reflected: " << light.reflected << std::endl;
-        std::cout << "Centimeters: " << sonic.cm << std::endl;
-        std::cout << "Timeout: " << timeout << std::endl;
-        usleep(timeout);
-    }
+    Car.turn_right();
+//    while (true)
+//    {
+//        timeout = 0;
+//        BP.get_sensor(PORT_2, sonic);
+//        BP.get_sensor(PORT_3, light);
+//
+//        // Detect if there is an obstacle on the path
+//        if (sonic.cm < LINERIDER_OBJECT_DISTANCE)
+//        {
+//            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+//
+//            Car.turn_right();
+//            timeout = 500;
+//        }
+//        else if (light.reflected >= LINERIDER_REFLECTED_LIGHT)
+//        {
+//            // Robot is still on the line
+//            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
+//            Car.set_left_dps(LINERIDER_SPEED);
+//            Car.set_right_dps(0);
+//        }
+//        else
+//        {
+//            // Robot lost the line, need to find it again
+//            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
+//            Car.set_left_dps(0);
+//            Car.set_right_dps(LINERIDER_SPEED);
+//        }
+//
+//        std::cout << "Ambient: " << light.ambient << std::endl;
+//        std::cout << "Reflected: " << light.reflected << std::endl;
+//        std::cout << "Centimeters: " << sonic.cm << std::endl;
+//        std::cout << "Timeout: " << timeout << std::endl;
+//        usleep(timeout);
+//    }
 }
 
 void Jhin::reset()
