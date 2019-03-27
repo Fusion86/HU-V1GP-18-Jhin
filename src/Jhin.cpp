@@ -56,6 +56,7 @@ void Jhin::linerider()
     // Left wheel = M B
     // Right wheel = M C
 
+    bool pong = false;
     sensor_light_t light;
     sensor_ultrasonic_t sonic; // Gotta go fast
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
@@ -63,7 +64,6 @@ void Jhin::linerider()
 
     while (true)
     {
-        bool pong = false;
         BP.get_sensor(PORT_3, light);
         BP.get_sensor(PORT_2, sonic);
 
