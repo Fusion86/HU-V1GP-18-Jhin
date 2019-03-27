@@ -63,26 +63,33 @@ void Jhin::linerider()
 
     while (true)
     {
+        bool pong = false;
         BP.get_sensor(PORT_3, light);
         BP.get_sensor(PORT_2, sonic);
 
         if (sonic.cm < 15)
         {
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
+            if (pong)
+                BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+            else
+                BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
+
+            pong = !pong;
             BP.set_motor_dps(PORT_B, 0);
             BP.set_motor_dps(PORT_C, 0);
+            usleep(500);
         }
         else if (light.reflected >= 2200)
         {
             // Robot is still on the line
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
             BP.set_motor_dps(PORT_B, LINERIDER_SPEED);
             BP.set_motor_dps(PORT_C, 0);
         }
         else
         {
             // Robot lost the line, need to find it again
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
             BP.set_motor_dps(PORT_B, 0);
             BP.set_motor_dps(PORT_C, LINERIDER_SPEED);
         }
