@@ -68,13 +68,13 @@ void Jhin::linerider()
             // Robot is still on the line
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
             BP.set_motor_dps(PORT_B, LINERIDER_SPEED);
-            BP.set_motor_dps(PORT_C, 0);
+            BP.set_motor_dps(PORT_C, LINERIDER_SPEED / 4);
         }
         else
         {
             // Robot lost the line, need to find it again
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-            BP.set_motor_dps(PORT_B, 0);
+            BP.set_motor_dps(PORT_B, LINERIDER_SPEED / 4);
             BP.set_motor_dps(PORT_C, LINERIDER_SPEED);
         }
 
