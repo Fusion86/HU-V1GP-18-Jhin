@@ -23,7 +23,10 @@ void CarKit::set_right_dps(int dps)
 
 void CarKit::turn_right()
 {
+    BP.set_motor_dps(Config.RightWheel, 0);
+
+    BP.set_motor_dps(Config.LeftWheel, 200);
+    usleep(1000)
     BP.set_motor_dps(Config.LeftWheel, 0);
 
-    BP.set_motor_dps(Config.RightWheel, 200);
 }
