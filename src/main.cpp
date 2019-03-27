@@ -42,6 +42,10 @@ int main(int argc, char *argv[])
     {
         j.police();
     }
+    else if (strcmp(argv[1], "remote") == 0)
+    {
+        j.remote_control();
+    }
     else
     {
         std::cerr << "Invalid argument" << std::endl;

@@ -6,5 +6,5 @@ set (CMAKE_CXX_STANDARD 11)
 project(jhin VERSION 0.1.2)
 add_definitions(-D jhin_VERSION="${jhin_VERSION}")
 
-add_executable(jhin main.cpp BrickPi3.cpp Jhin.cpp CarKit.cpp)
+add_executable(jhin main.cpp BrickPi3.cpp Jhin.cpp CarKit.cpp BluetoothSocket.cpp)
 include_directories(include)

@@ -24,6 +24,7 @@ public:
   void linerider();
   void reset();
   void police();
+  void remote_control();
   CarKit Car;
 
 private:

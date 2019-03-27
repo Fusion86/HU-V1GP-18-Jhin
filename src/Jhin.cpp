@@ -1,5 +1,7 @@
 #include "Jhin.h"
 
+#include "BluetoothSocket.h"
+
 Jhin::Jhin()
 {
     BP = BrickPi3();
@@ -45,6 +47,7 @@ void Jhin::print_help()
               << "  test - execute test code\n"
               << "  linerider - follow line\n"
               << "  police - do a wee-ooo wee-ooo\n"
+              << "  remote - remote control with bluetooth app\n"
               << std::endl;
 }
 
@@ -113,5 +116,74 @@ void Jhin::police()
         sleep(1);
         BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_BLUE);
         sleep(1);
+    }
+}
+
+void Jhin::remote_control()
+{
+    BluetoothServerSocket serversock(2, 1); // Channel 2
+    cout << "listening" << endl;
+    while (true)
+    {
+        bool colorToggle;
+        BluetoothSocket *clientsock = serversock.accept();
+        cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
+        MessageBox &mb = clientsock->getMessageBox();
+
+        string input;
+        while (mb.isRunning())
+        {
+            input = mb.readMessage(); // Non-blocking
+            if (input != "")
+                cout << endl
+                     << input << endl;
+
+            switch (input)
+            {
+            case "UP":
+                Car.set_left_dps(500);
+                Car.set_right_dps(500);
+                sleep(1);
+                Car.set_left_dps(0);
+                Car.set_right_dps(0);
+                break;
+            case "DOWN":
+                Car.set_left_dps(-500);
+                Car.set_right_dps(-500);
+                sleep(1);
+                Car.set_left_dps(0);
+                Car.set_right_dps(0);
+                break;
+            case "LEFT":
+                Car.set_left_dps(500);
+                sleep(1);
+                Car.set_left_dps(0);
+                break;
+            case "RIGHT":
+                Car.set_right_dps(500);
+                sleep(1);
+                Car.set_right_dps(0);
+            case "FIRE":
+                if (colorToggle)
+                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+                else
+                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
+
+                colorToggle = !colorToggle;
+                break;
+            case "A":
+                break;
+            case "B":
+                break;
+            case "C":
+                break;
+            }
+
+            cout << ".";
+            cout.flush();
+            usleep(500000); // Wait 500 ms
+        }
+
+        clientsock->close();
     }
 }
