@@ -74,18 +74,18 @@ void Jhin::linerider()
         {
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
 
-            Car.set_left_dps(100);
+            Car.set_left_dps(0);
             Car.set_right_dps(0);
-            usleep(1000);
-            Car.set_right_dps(100);
-            usleep(3000);
-            Car.set_left_dps(0);
-            usleep(1000);
-            Car.set_left_dps(100);
-            usleep(3000);
-            Car.set_left_dps(0);
-            usleep(1000);
-            Car.set_left_dps(100);
+//            usleep(1000);
+//            Car.set_right_dps(100);
+//            usleep(3000);
+//            Car.set_left_dps(0);
+//            usleep(1000);
+//            Car.set_left_dps(100);
+//            usleep(3000);
+//            Car.set_left_dps(0);
+//            usleep(1000);
+//            Car.set_left_dps(100);
 
             timeout = 500;
         }
