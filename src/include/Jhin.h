@@ -9,6 +9,8 @@
 #include "BrickPi3.h"
 #include "Utility.h"
 
+#define LINERIDER_SPEED 200
+
 class Jhin
 {
   public:

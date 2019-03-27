@@ -56,8 +56,6 @@ void Jhin::linerider()
     // Left wheel = M B
     // Right wheel = M C
 
-    std::cout << "Press s to stop" << std::endl;
-
     sensor_light_t light;
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
 
@@ -65,19 +63,18 @@ void Jhin::linerider()
     {
         BP.get_sensor(PORT_3, light);
 
-        if (light.reflected >= 40) {
-            BP.set_motor_dps(PORT_B, 500 * 1.02);
-        } else if (light.reflected < 40) {
-            BP.set_motor_dps(PORT_C, 500);
+        if (light.reflected >= 40)
+        {
+            BP.set_motor_dps(PORT_B, LINERIDER_SPEED * 1.02);
         }
-        int ch = std::cin.get();
+        else if (light.reflected < 40)
+        {
+            BP.set_motor_dps(PORT_C, LINERIDER_SPEED);
+        }
 
-        if (ch == 115) // If cc == 's'
-            break;
+        std::cout << "Ambient: " << light.ambient << std::endl;
+        std::cout << "Reflected: " << light.reflected << std::endl;
     }
-
-    BP.set_motor_power(PORT_B, 0);
-    BP.set_motor_power(PORT_C, 0);
 }
 
 void Jhin::reset()
