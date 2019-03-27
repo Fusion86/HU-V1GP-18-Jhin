@@ -12,6 +12,7 @@ class CarKit
     int Speed = 200;
     CarKitConfig Config = {};
 
+    CarKit();
     CarKit(BrickPi3 bp);
 
     void set_left_dps(int dps);
