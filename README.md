@@ -14,7 +14,7 @@ Text etc
 
 ## How to connect the motors
 
-The prefixed M stands for motor (probably).  
+The prefixed M stands for motor (probably).
 Ports 1-4 should be connected to the **S**1-4 ports on the BrickPi.
 
 * MA = Unused
@@ -22,7 +22,7 @@ Ports 1-4 should be connected to the **S**1-4 ports on the BrickPi.
 * MC = Right wheel
 * MD = Unused
 * PORT_1 = Unused
-* PORT_2 = Unused
+* PORT_2 = Sonar sensor
 * PORT_3 = Light sensor
 * PORT_4 = RGB light sensor
 

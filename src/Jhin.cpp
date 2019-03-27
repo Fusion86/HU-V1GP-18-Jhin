@@ -57,13 +57,22 @@ void Jhin::linerider()
     // Right wheel = M C
 
     sensor_light_t light;
+    sensor_ultrasonic_t sonic; // Gotta go fast
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
+    BP.set_sensor_type(PORT_2, SENSOR_TYPE_NXT_ULTRASONIC);
 
     while (true)
     {
         BP.get_sensor(PORT_3, light);
+        BP.get_sensor(PORT_2, sonic);
 
-        if (light.reflected >= 2200)
+        if (sonic.presence)
+        {
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
+            BP.set_motor_dps(PORT_B, 0);
+            BP.set_motor_dps(PORT_C, 0);
+        }
+        else if (light.reflected >= 2200)
         {
             // Robot is still on the line
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
@@ -80,6 +89,7 @@ void Jhin::linerider()
 
         std::cout << "Ambient: " << light.ambient << std::endl;
         std::cout << "Reflected: " << light.reflected << std::endl;
+        std::cout << "Centimeters: " << sonic.cm << std::endl;
     }
 }
 
