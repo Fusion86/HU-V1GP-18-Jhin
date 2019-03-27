@@ -4,6 +4,10 @@ Jhin::Jhin()
 {
     BP = BrickPi3();
     BP.detect();
+
+    Car = CarKit(BP);
+    Car.Config.LeftWheel = PORT_B;
+    Car.Config.RightWheel = PORT_C;
 }
 
 void Jhin::print_info()
@@ -53,10 +57,7 @@ void Jhin::test()
 
 void Jhin::linerider()
 {
-    // Left wheel = M B
-    // Right wheel = M C
-
-    bool pong = false;
+    int timeout;
     sensor_light_t light;
     sensor_ultrasonic_t sonic; // Gotta go fast
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
@@ -64,39 +65,38 @@ void Jhin::linerider()
 
     while (true)
     {
-        BP.get_sensor(PORT_3, light);
+        timeout = 0;
         BP.get_sensor(PORT_2, sonic);
+        BP.get_sensor(PORT_3, light);
 
-        if (sonic.cm < 15)
+        // Detect if there is an obstacle on the path
+        if (sonic.cm < LINERIDER_OBJECT_DISTANCE)
         {
-            if (pong)
-                BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-            else
-                BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
-
-            pong = !pong;
-            BP.set_motor_dps(PORT_B, 0);
-            BP.set_motor_dps(PORT_C, 0);
-            usleep(500);
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+            Car.set_left_dps(0);
+            Car.set_right_dps(0);
+            timeout = 500;
         }
-        else if (light.reflected >= 2200)
+        else if (light.reflected >= LINERIDER_REFLECTED_LIGHT)
         {
             // Robot is still on the line
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            BP.set_motor_dps(PORT_B, LINERIDER_SPEED);
-            BP.set_motor_dps(PORT_C, 0);
+            Car.set_left_dps(LINERIDER_SPEED);
+            Car.set_right_dps(0);
         }
         else
         {
             // Robot lost the line, need to find it again
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            BP.set_motor_dps(PORT_B, 0);
-            BP.set_motor_dps(PORT_C, LINERIDER_SPEED);
+            Car.set_left_dps(0);
+            Car.set_right_dps(LINERIDER_SPEED);
         }
 
         std::cout << "Ambient: " << light.ambient << std::endl;
         std::cout << "Reflected: " << light.reflected << std::endl;
         std::cout << "Centimeters: " << sonic.cm << std::endl;
+        std::cout << "Timeout: " << timeout << std::endl;
+        usleep(timeout);
     }
 }
 
