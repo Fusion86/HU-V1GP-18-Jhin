@@ -66,7 +66,7 @@ void Jhin::linerider()
         BP.get_sensor(PORT_3, light);
         BP.get_sensor(PORT_2, sonic);
 
-        if (sonic.presence)
+        if (sonic.cm < 15)
         {
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
             BP.set_motor_dps(PORT_B, 0);
