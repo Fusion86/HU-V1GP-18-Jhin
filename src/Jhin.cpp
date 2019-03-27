@@ -66,12 +66,12 @@ void Jhin::linerider()
         if (light.reflected >= 2200)
         {
             // Robot is still on the line
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
         }
         else
         {
             // Robot lost the line, need to find it again
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
         }
 
         std::cout << "Ambient: " << light.ambient << std::endl;
