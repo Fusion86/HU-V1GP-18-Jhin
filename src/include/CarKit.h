@@ -2,6 +2,7 @@
 
 struct CarKitConfig
 {
+    int Speed;
     int LeftWheel;
     int RightWheel;
 };
@@ -9,7 +10,6 @@ struct CarKitConfig
 class CarKit
 {
   public:
-    int Speed = 200;
     CarKitConfig Config = {};
 
     CarKit();
@@ -20,6 +20,7 @@ class CarKit
     void turn_right();
     void turn_left();
     void move_forward();
+    void move_backward();
 
   private:
     BrickPi3 BP;

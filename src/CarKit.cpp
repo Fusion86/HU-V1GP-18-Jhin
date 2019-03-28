@@ -2,7 +2,9 @@
 
 #include <unistd.h>
 
-CarKit::CarKit() = default;
+CarKit::CarKit() {
+    Config.Speed = 200;
+};
 
 CarKit::CarKit(BrickPi3 bp)
 {
@@ -23,7 +25,7 @@ void CarKit::turn_right()
 {
     set_right_dps(0);
 
-    set_left_dps(500);
+    set_left_dps(Config.Speed);
     sleep(10);
     set_left_dps(0);
 }
@@ -32,15 +34,24 @@ void CarKit::turn_left()
 {
     set_left_dps(0);
 
-    set_right_dps(500);
+    set_right_dps(Config.Speed);
     sleep(1);
     set_right_dps(0);
 }
 
 void CarKit::move_forward()
 {
-    set_left_dps(500);
-    set_right_dps(500);
+    set_left_dps(Config.Speed);
+    set_right_dps(Config.Speed);
+    sleep(1);
+    set_left_dps(0);
+    set_right_dps(0);
+}
+
+void CarKit::move_backward()
+{
+    set_left_dps(-Config.Speed);
+    set_right_dps(-Config.Speed);
     sleep(1);
     set_left_dps(0);
     set_right_dps(0);

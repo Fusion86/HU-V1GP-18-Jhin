@@ -169,31 +169,19 @@ void Jhin::remote_control()
 
             if (input == "UP")
             {
-                Car.set_left_dps(500);
-                Car.set_right_dps(500);
-                sleep(1);
-                Car.set_left_dps(0);
-                Car.set_right_dps(0);
+                Car.move_forward();
             }
             else if (input == "DOWN")
             {
-                Car.set_left_dps(-500);
-                Car.set_right_dps(-500);
-                sleep(1);
-                Car.set_left_dps(0);
-                Car.set_right_dps(0);
+                Car.move_backward();
             }
             else if (input == "LEFT")
             {
-                Car.set_left_dps(500);
-                sleep(1);
-                Car.set_left_dps(0);
+                Car.turn_left();
             }
             else if (input == "RIGHT")
             {
-                Car.set_right_dps(500);
-                sleep(1);
-                Car.set_right_dps(0);
+                Car.turn_right();
             }
             else if (input == "FIRE")
             {
