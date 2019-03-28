@@ -53,18 +53,51 @@ void Jhin::print_help()
 
 void Jhin::test()
 {
-    BP.set_motor_dps(PORT_A, 90);
+    Car.set_right_dps(90);
+    Car.set_left_dps(-90);
     sleep(2);
-    BP.set_motor_power(PORT_A, 0);
+    Car.set_right_dps(0);
+    Car.set_left_dps(0);
 }
 
 void Jhin::linerider()
 {
     int timeout;
-    sensor_light_t light;
-    sensor_ultrasonic_t sonic; // Gotta go fast
-    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
+    sensor_light_t light{};
+    sensor_ultrasonic_t sonic{}; // Gotta go fast
+    sensor_touch_t touch{};
     BP.set_sensor_type(PORT_2, SENSOR_TYPE_NXT_ULTRASONIC);
+    BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
+    BP.set_sensor_type(PORT_4, SENSOR_TYPE_TOUCH);
+
+    std::cout << "Calibration: " << std::endl;
+
+    std::cout << "Calibrate light surface: " << std::endl;
+    do {
+        BP.get_sensor(PORT_4, touch);
+    }
+    while (!touch.pressed);
+
+    sleep(2);
+
+    BP.get_sensor(PORT_3, light);
+    int lightSurface = light.reflected;
+
+    std::cout << "Light surface calibrated." << std::endl;
+
+    std::cout << "Calibrate dark surface: " << std::endl;
+    do {
+        BP.get_sensor(PORT_4, touch);
+    }
+    while (!touch.pressed);
+
+    BP.get_sensor(PORT_3, light);
+    int darkSurface = light.reflected;
+
+    std::cout << "Dark surface calibrated." << std::endl;
+
+    std::cout << "Light surface: " << lightSurface << std::endl;
+    std::cout << "Dark surface: " << darkSurface << std::endl;
 
     while (true)
     {
@@ -72,27 +105,23 @@ void Jhin::linerider()
         BP.get_sensor(PORT_2, sonic);
         BP.get_sensor(PORT_3, light);
 
-        // Detect if there is an obstacle on the path
-        if (sonic.cm < LINERIDER_OBJECT_DISTANCE)
+        while (sonic.cm > LINERIDER_OBJECT_DISTANCE)
         {
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-
-            Car.turn_right();
-            timeout = 500;
-        }
-        else if (light.reflected >= LINERIDER_REFLECTED_LIGHT)
-        {
-            // Robot is still on the line
+            // Following line
+            Car.set_left_dps(LINERIDER_SPEED * 1);
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            Car.set_left_dps(LINERIDER_SPEED);
             Car.set_right_dps(0);
-        }
-        else
-        {
+
             // Robot lost the line, need to find it again
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
             Car.set_left_dps(0);
             Car.set_right_dps(LINERIDER_SPEED);
+
+            // Evading obstacle
+            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+
+            Car.turn_right();
+            timeout = 500;
         }
 
         std::cout << "Ambient: " << light.ambient << std::endl;
@@ -119,71 +148,62 @@ void Jhin::police()
     }
 }
 
-void Jhin::remote_control()
-{
-    BluetoothServerSocket serversock(2, 1); // Channel 2
-    cout << "listening" << endl;
-    while (true)
-    {
-        bool colorToggle;
-        BluetoothSocket *clientsock = serversock.accept();
-        cout << "accepted from " << clientsock->getForeignAddress().getAddress() << endl;
-        MessageBox &mb = clientsock->getMessageBox();
-
-        string input;
-        while (mb.isRunning())
-        {
-            input = mb.readMessage(); // Non-blocking
-            if (input != "")
-                cout << endl
-                     << input << endl;
-
-            switch (input)
-            {
-            case "UP":
-                Car.set_left_dps(500);
-                Car.set_right_dps(500);
-                sleep(1);
-                Car.set_left_dps(0);
-                Car.set_right_dps(0);
-                break;
-            case "DOWN":
-                Car.set_left_dps(-500);
-                Car.set_right_dps(-500);
-                sleep(1);
-                Car.set_left_dps(0);
-                Car.set_right_dps(0);
-                break;
-            case "LEFT":
-                Car.set_left_dps(500);
-                sleep(1);
-                Car.set_left_dps(0);
-                break;
-            case "RIGHT":
-                Car.set_right_dps(500);
-                sleep(1);
-                Car.set_right_dps(0);
-            case "FIRE":
-                if (colorToggle)
-                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-                else
-                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
-
-                colorToggle = !colorToggle;
-                break;
-            case "A":
-                break;
-            case "B":
-                break;
-            case "C":
-                break;
-            }
-
-            cout << ".";
-            cout.flush();
-            usleep(500000); // Wait 500 ms
-        }
-
-        clientsock->close();
-    }
-}
+//void Jhin::remote_control()
+//{
+//    BluetoothServerSocket serversock(2, 1); // Channel 2
+//    std::cout << "listening" << std::endl;
+//    while (true)
+//    {
+//        bool colorToggle;
+//        BluetoothSocket *clientsock = serversock.accept();
+//        std::cout << "accepted from " << clientsock->getForeignAddress().getAddress() << std::endl;
+//        MessageBox &mb = clientsock->getMessageBox();
+//
+//        std::string input;
+//        while (mb.isRunning())
+//        {
+//            input = mb.readMessage(); // Non-blocking
+//            if (input != "")
+//                std::cout << std::endl
+//                     << input << std::endl;
+//
+//            if (input == "UP") {
+//                Car.set_left_dps(500);
+//                Car.set_right_dps(500);
+//                sleep(1);
+//                Car.set_left_dps(0);
+//                Car.set_right_dps(0);
+//            } else if (input == "DOWN") {
+//                Car.set_left_dps(-500);
+//                Car.set_right_dps(-500);
+//                sleep(1);
+//                Car.set_left_dps(0);
+//                Car.set_right_dps(0);
+//            } else if (input == "LEFT") {
+//                Car.set_left_dps(500);
+//                sleep(1);
+//                Car.set_left_dps(0);
+//            } else if (input == "RIGHT") {
+//                Car.set_right_dps(500);
+//                sleep(1);
+//                Car.set_right_dps(0);
+//            } else if (input == "FIRE") {
+//                if (colorToggle)
+//                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
+//                else
+//                    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_BLUE);
+//
+//                colorToggle = !colorToggle;
+//            } else if (input == "A") {
+//            } else if (input == "B") {
+//            } else if (input == "C") {
+//            }
+//
+//            std::cout << ".";
+//            std::cout.flush();
+//            usleep(500000); // Wait 500 ms
+//        }
+//
+//        clientsock->close();
+//    }
+//}

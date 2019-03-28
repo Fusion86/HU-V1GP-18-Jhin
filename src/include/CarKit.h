@@ -18,6 +18,8 @@ class CarKit
     void set_left_dps(int dps);
     void set_right_dps(int dps);
     void turn_right();
+    void turn_left();
+    void move_forward();
 
   private:
     BrickPi3 BP;

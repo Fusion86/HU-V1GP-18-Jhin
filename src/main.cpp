@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(argv[1], "remote") == 0)
     {
-        j.remote_control();
+//        j.remote_control();
     }
     else
     {
