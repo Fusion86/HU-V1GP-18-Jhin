@@ -11,7 +11,7 @@
 #include "CarKit.h"
 
 #define LINERIDER_SPEED 200            // Speed
-#define LINERIDER_OBJECT_DISTANCE 15   // Distance at which objects will be detected
+#define LINERIDER_OBJECT_DISTANCE 5   // Distance at which objects will be detected
 #define LINERIDER_REFLECTED_LIGHT 2200 // If the reflected light count is larger than this number the robot is on the line, if the reflected light count is lower then it is NOT on the line
 
 class Jhin

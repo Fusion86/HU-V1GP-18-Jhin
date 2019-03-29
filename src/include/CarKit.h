@@ -17,9 +17,10 @@ class CarKit
 
     void set_left_dps(int dps);
     void set_right_dps(int dps);
+    void stop();
     void turn_right();
     void turn_left();
-    void move_forward();
+    void move_forward(float seconds = 1);
     void move_backward();
 
   private:

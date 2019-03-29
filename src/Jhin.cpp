@@ -62,9 +62,8 @@ void Jhin::test()
 
 void Jhin::linerider()
 {
-    int timeout;
-    sensor_light_t light{};
     sensor_ultrasonic_t sonic{}; // Gotta go fast
+    sensor_light_t light{};
     sensor_touch_t touch{};
     BP.set_sensor_type(PORT_2, SENSOR_TYPE_NXT_ULTRASONIC);
     BP.set_sensor_type(PORT_3, SENSOR_TYPE_NXT_LIGHT_ON);
@@ -73,21 +72,19 @@ void Jhin::linerider()
     std::cout << "Calibration: " << std::endl;
 
     std::cout << "Calibrate light surface: " << std::endl;
-    do
-    {
+    do {
         BP.get_sensor(PORT_4, touch);
     } while (!touch.pressed);
 
-    sleep(2);
+    sleep(1);
 
     BP.get_sensor(PORT_3, light);
-    int lightSurface = light.reflected;
+    float lightSurface = light.reflected;
 
     std::cout << "Light surface calibrated." << std::endl;
 
     std::cout << "Calibrate dark surface: " << std::endl;
-    do
-    {
+    do {
         BP.get_sensor(PORT_4, touch);
     } while (!touch.pressed);
 
@@ -99,36 +96,42 @@ void Jhin::linerider()
     std::cout << "Light surface: " << lightSurface << std::endl;
     std::cout << "Dark surface: " << darkSurface << std::endl;
 
-    while (true)
+    float lightAvg = (lightSurface + darkSurface) / 2;
+    sleep(2);
+    BP.get_sensor(PORT_4, touch);
+    while (!touch.pressed)
     {
-        timeout = 0;
-        BP.get_sensor(PORT_2, sonic);
-        BP.get_sensor(PORT_3, light);
-
-        while (sonic.cm > LINERIDER_OBJECT_DISTANCE)
-        {
+        do {
             // Following line
-            Car.set_left_dps(LINERIDER_SPEED * 1);
+            BP.get_sensor(PORT_2, sonic);
+            BP.get_sensor(PORT_3, light);
+
+            int lightAvgDif = static_cast<int>(light.reflected - lightAvg);
+            Car.set_left_dps(LINERIDER_SPEED + lightAvgDif);
+
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            Car.set_right_dps(0);
 
             // Robot lost the line, need to find it again
             BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_GREEN);
-            Car.set_left_dps(0);
-            Car.set_right_dps(LINERIDER_SPEED);
+            Car.set_right_dps(LINERIDER_SPEED - lightAvgDif);
+        } while (sonic.cm > LINERIDER_OBJECT_DISTANCE);
+        // Evading obstacle
+        BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
 
-            // Evading obstacle
-            BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_RED);
-
-            Car.turn_right();
-            timeout = 500;
-        }
+        Car.stop();
+        BP.set_motor_position_relative(PORT_C, -370);
+        sleep(2);
+        Car.move_forward(1);
+        Car.turn_left();
+        Car.move_forward(2);
+        Car.turn_left();
+        Car.move_forward(0.5);
+        Car.turn_right();
 
         std::cout << "Ambient: " << light.ambient << std::endl;
         std::cout << "Reflected: " << light.reflected << std::endl;
         std::cout << "Centimeters: " << sonic.cm << std::endl;
-        std::cout << "Timeout: " << timeout << std::endl;
-        usleep(timeout);
+        BP.get_sensor(PORT_4, touch);
     }
 }
 
@@ -169,7 +172,7 @@ void Jhin::remote_control()
 
             if (input == "UP")
             {
-                Car.move_forward();
+                Car.move_forward(1);
             }
             else if (input == "DOWN")
             {
