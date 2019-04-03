@@ -15,10 +15,7 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        Color::Modifier red(Color::FG_RED);
-        Color::Modifier def(Color::FG_DEFAULT);
-
-        std::cerr << red << "No argument given \n" << def << std::endl;
+        std::cerr << Color::ForegroundRed << "No argument given \n" << Color::Default << std::endl;
         j.print_help();
         return 1;
     }
@@ -43,7 +40,7 @@ int main(int argc, char **argv)
     {
         if (argc < 3)
         {
-            std::cerr << "No vector file specified!" << std::endl;
+            std::cerr << Color::ForegroundRed << "No vector file specified" << Color::Default << std::endl;
             return 1;
         }
     }

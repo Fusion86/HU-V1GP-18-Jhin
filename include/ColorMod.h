@@ -1,4 +1,5 @@
 // https://stackoverflow.com/a/17469726/2125072
+#pragma once
 
 #include <ostream>
 
@@ -13,6 +14,7 @@ namespace Color {
         BG_BLUE     = 44,
         BG_DEFAULT  = 49
     };
+
     class Modifier {
         Code code;
     public:
@@ -22,4 +24,7 @@ namespace Color {
             return os << "\033[" << mod.code << "m";
         }
     };
+
+    static Color::Modifier ForegroundRed(Code::FG_RED);
+    static Color::Modifier Default(Code::FG_DEFAULT);
 }
