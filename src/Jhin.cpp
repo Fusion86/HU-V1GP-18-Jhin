@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "BrickPi3.h"
 #include "Utility.h"
@@ -16,9 +17,6 @@ Jhin::Jhin()
 void Jhin::reset()
 {
     BP.reset_all(); // Reset everything so there are no run-away motors
-
-    // Reset terminal to normal "cooked" mode
-    system("stty cooked");
 }
 
 void Jhin::print_help()
@@ -58,6 +56,17 @@ void Jhin::print_info()
 
 void Jhin::run()
 {
+    BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
+    BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
+
+    uint32_t rotate = 0;
+
+    uint32_t x_move = 0;
+    uint32_t x_pos = 0;
+
+    uint32_t y_move = 0;
+    uint32_t y_pos = 0;
+
     std::string input;
 
     std::cout << "Calibrate pen\n"
@@ -65,43 +74,52 @@ void Jhin::run()
               << "Press [enter] to confirm and continue."
               << std::endl;
 
-    uint8_t pen_state = 0;
-    uint8_t pen_power = 0;
-    uint32_t pen_pos = 0;
-    uint16_t pen_dps = 0;
-    BP.get_motor_status(PORT_PEN, pen_state, pen_power, pen_pos, pen_dps);
-
     while (true)
     {
         std::getline(std::cin, input);
-
         if (input[0] == 'q')
         {
-            pen_pos = pen_pos + 5 % 360;
+            rotate += 15;
         }
         else if (input[0] == 'e')
         {
-            if (pen_pos < 5)
-                pen_pos = 355;
-            else
-                pen_pos -= 5;
+            rotate -= 15;
         }
-        else if (input[0] == 'Q')
+        else if (input[0] == 'w')
         {
-            pen_pos = pen_pos + 20 % 360;
+            x_move += X_RAIL_LENGTH;
         }
-        else if (input[0] == 'E')
+        else if (input[0] == 's')
         {
-            if (pen_pos < 20)
-                pen_pos = 340;
-            else
-                pen_pos -= 20;
+            x_move -= X_RAIL_LENGTH;
+        }
+        else if (input[0] == 'a')
+        {
+            y_move += Y_RAIL_LENGTH;
+        }
+        else if (input[0] == 'd')
+        {
+            y_move -= Y_RAIL_LENGTH;
         }
         else if (input.empty())
         {
             break;
         }
 
-        BP.set_motor_position(PORT_PEN, pen_pos);
+        BP.set_motor_position_relative(PORT_PEN, rotate);
+
+        if (x_pos + x_move <= X_RAIL_LENGTH) {
+            BP.set_motor_position_relative(PORT_X, x_move);
+            x_pos += x_move;
+        }
+
+        if (y_pos + y_move <= Y_RAIL_LENGTH) {
+            BP.set_motor_position_relative(PORT_Y, y_move);
+            y_pos += y_move;
+        }
+
+        rotate = 0;
+        x_move = 0;
+        y_move = 0;
     }
 }
