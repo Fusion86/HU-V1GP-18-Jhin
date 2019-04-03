@@ -7,5 +7,17 @@ add_definitions(-D jhin_VERSION="${jhin_VERSION}")
 
 include_directories(include)
 
-file(GLOB jhin_SRC "src/*.cpp")
+file(GLOB sources "src/*.cpp")
+set(jhin_SRC ${sources})
+
+if(FAKE_BRICKPI)
+    message(STATUS "Building with fake BrickPi3")
+    add_definitions(-D FAKE_BRICKPI)
+    list(REMOVE_ITEM jhin_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/BrickPi3.cpp)
+    message(STATUS ${jhin_SRC})
+else()
+    message(STATUS "Building with real BrickPi3")
+    list(REMOVE_ITEM jhin_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/BrickPi3Fake.cpp)
+endif(FAKE_BRICKPI)
+
 add_executable(jhin ${jhin_SRC})
