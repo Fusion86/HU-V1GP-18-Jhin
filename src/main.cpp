@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include <signal.h> // for catching exit signals
+#include <signal.h> // For catching exit signals
 
+#include "ColorMod.h"
 #include "Jhin.h"
 
 Jhin j;
@@ -10,12 +11,14 @@ void exit_signal_handler(int signo);
 
 int main(int argc, char **argv)
 {
-    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
+    signal(SIGINT, exit_signal_handler); // Register the exit function for Ctrl+C
 
     if (argc < 2)
     {
-        std::cerr << "No argument given \n"
-                  << std::endl;
+        Color::Modifier red(Color::FG_RED);
+        Color::Modifier def(Color::FG_DEFAULT);
+
+        std::cerr << red << "No argument given \n" << def << std::endl;
         j.print_help();
         return 1;
     }
@@ -28,9 +31,25 @@ int main(int argc, char **argv)
     {
         j.print_info();
     }
-    else if (strcmp(argv[1], "run") == 0)
+    else if (strcmp(argv[1], "line") == 0)
     {
-        j.run();
+
+    }
+    else if (strcmp(argv[1], "rect") == 0)
+    {
+        
+    }
+    else if (strcmp(argv[1], "vector") == 0)
+    {
+        if (argc < 3)
+        {
+            std::cerr << "No vector file specified!" << std::endl;
+            return 1;
+        }
+    }
+    else if (strcmp(argv[1], "status") == 0)
+    {
+        j.motor_status();
     }
 
     j.reset();

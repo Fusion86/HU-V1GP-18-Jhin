@@ -25,8 +25,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#ifndef FAKE_BRICKPI
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
+#endif
 #include <stdio.h>            // for printf
 #include <string.h>           // for strstr
 

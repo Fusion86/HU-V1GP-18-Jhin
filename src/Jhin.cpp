@@ -26,7 +26,12 @@ void Jhin::print_help()
               << "COMMANDS:\n"
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
-              << std::endl;
+              << "  status - print motor status (rotation/power/etc)\n"
+              << "\nDRAW COMMANDS:\n"
+              << "  line - draw line\n"
+              << "  rect - draw rectangle\n"
+              << "  vector - load vector from disk and draw\n"
+              << std::flush;
 }
 
 void Jhin::print_info()
@@ -52,6 +57,15 @@ void Jhin::print_info()
     printf("9v voltage      : %.3f\n", BP.get_voltage_9v());
     printf("5v voltage      : %.3f\n", BP.get_voltage_5v());
     printf("3.3v voltage    : %.3f\n", BP.get_voltage_3v3());
+}
+
+void Jhin::motor_status()
+{
+    uint8_t pen_state = 0;
+    int8_t pen_power = 0;
+    int32_t pen_pos = 0;
+    int16_t pen_dps = 0;
+    BP.get_motor_status(PORT_PEN, pen_state, pen_power, pen_pos, pen_dps);
 }
 
 void Jhin::run()

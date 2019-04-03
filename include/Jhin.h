@@ -16,7 +16,7 @@ public:
   void reset();
   void print_help();
   void print_info();
-  void run();
+  void motor_status();
 
 private:
   BrickPi3 BP;
