@@ -16,9 +16,6 @@ Jhin::Jhin()
 void Jhin::reset()
 {
     BP.reset_all(); // Reset everything so there are no run-away motors
-
-    // Reset terminal to normal "cooked" mode
-    system("stty cooked");
 }
 
 void Jhin::print_help()
@@ -28,7 +25,12 @@ void Jhin::print_help()
               << "COMMANDS:\n"
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
-              << std::endl;
+              << "  status - print motor status (rotation/power/etc)\n"
+              << "\nDRAW COMMANDS:\n"
+              << "  line - draw line\n"
+              << "  rect - draw rectangle\n"
+              << "  vector - load vector from disk and draw\n"
+              << std::flush;
 }
 
 void Jhin::print_info()
@@ -56,52 +58,11 @@ void Jhin::print_info()
     printf("3.3v voltage    : %.3f\n", BP.get_voltage_3v3());
 }
 
-void Jhin::run()
+void Jhin::motor_status()
 {
-    std::string input;
-
-    std::cout << "Calibrate pen\n"
-              << "Rotate pen with q and e, press shift to rotate faster.\n"
-              << "Press [enter] to confirm and continue."
-              << std::endl;
-
     uint8_t pen_state = 0;
-    uint8_t pen_power = 0;
-    uint32_t pen_pos = 0;
-    uint16_t pen_dps = 0;
+    int8_t pen_power = 0;
+    int32_t pen_pos = 0;
+    int16_t pen_dps = 0;
     BP.get_motor_status(PORT_PEN, pen_state, pen_power, pen_pos, pen_dps);
-
-    while (true)
-    {
-        std::getline(std::cin, input);
-
-        if (input[0] == 'q')
-        {
-            pen_pos = pen_pos + 5 % 360;
-        }
-        else if (input[0] == 'e')
-        {
-            if (pen_pos < 5)
-                pen_pos = 355;
-            else
-                pen_pos -= 5;
-        }
-        else if (input[0] == 'Q')
-        {
-            pen_pos = pen_pos + 20 % 360;
-        }
-        else if (input[0] == 'E')
-        {
-            if (pen_pos < 20)
-                pen_pos = 340;
-            else
-                pen_pos -= 20;
-        }
-        else if (input.empty())
-        {
-            break;
-        }
-
-        BP.set_motor_position(PORT_PEN, pen_pos);
-    }
 }
