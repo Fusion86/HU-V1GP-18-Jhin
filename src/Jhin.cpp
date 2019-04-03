@@ -27,6 +27,7 @@ void Jhin::print_help()
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
               << "  status - print motor status (rotation/power/etc)\n"
+              << "  run - temp dev function\n"
               << "\nDRAW COMMANDS:\n"
               << "  line - draw line\n"
               << "  rect - draw rectangle\n"

@@ -48,6 +48,11 @@ int main(int argc, char **argv)
     {
         j.motor_status();
     }
+    else if (strcmp(argv[1], "run") == 0)
+    {
+        // TODO: Split this into multiple functions
+        j.run();
+    }
 
     j.reset();
     return 0;

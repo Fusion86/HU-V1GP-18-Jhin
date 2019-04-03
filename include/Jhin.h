@@ -17,6 +17,7 @@ public:
   void print_help();
   void print_info();
   void motor_status();
+  void run(); // Temp for development
 
 private:
   BrickPi3 BP;
