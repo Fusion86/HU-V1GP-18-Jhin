@@ -17,6 +17,8 @@ public:
   void print_help();
   void print_info();
   void motor_status();
+  void run();
+  void draw_square();
 
 private:
   BrickPi3 BP;

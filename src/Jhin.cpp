@@ -8,10 +8,13 @@
 #include "BrickPi3.h"
 #include "Utility.h"
 
+#include "ManualControl.h"
+
 Jhin::Jhin()
 {
     BP = BrickPi3();
     BP.detect();
+	Manual = ManualControl(BP);
 }
 
 void Jhin::reset()
@@ -136,4 +139,17 @@ void Jhin::run()
         x_move = 0;
         y_move = 0;
     }
+}
+
+void Jhin::draw_square() {
+
+	std::cout << "Make sure the pen is al the way down and the robot is in default position."
+		<< std::endl;
+	
+	Manual.x_forward();
+	Manual.y_forward();
+	Manual.x_backward();
+	Manual.y_backward();
+
+
 }
