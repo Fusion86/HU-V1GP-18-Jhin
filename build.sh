@@ -3,7 +3,7 @@
 mkdir -p build
 cd build
 
-if grep "Raspberry" /proc/device-tree/model &>/dev/null; then
+if grep -q "Raspberry" /proc/device-tree/model &>/dev/null; then
     # Compile on Raspberry Pi
     cmake -D CMAKE_BUILD_TYPE=Debug ..
     make
