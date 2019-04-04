@@ -1,3 +1,5 @@
+#pragma once
+
 #include "BrickPi3.h"
 
 #define PORT_PEN PORT_A
@@ -22,4 +24,5 @@ public:
 
 private:
   BrickPi3 BP;
+  ManualControl Manual;
 };

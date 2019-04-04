@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Jhin.h"
 
 #include "BrickPi3.h"
@@ -5,6 +7,7 @@
 class ManualControl
 {
 	public:
+		ManualControl();
 	    ManualControl(BrickPi3 bp);
 		void x_forward();
 		void x_backward();
@@ -14,4 +17,4 @@ class ManualControl
 		void pen_up();
     private:
 		BrickPi3 BP;
-}
+};
