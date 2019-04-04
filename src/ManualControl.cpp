@@ -1,5 +1,7 @@
 #include "ManualControl.h"
 
+#include "Jhin.h"
+
 ManualControl::ManualControl() {
 }
 

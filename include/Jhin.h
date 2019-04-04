@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BrickPi3.h"
+#include "ManualControl.h"
 
 #define PORT_PEN PORT_A
 #define PORT_X PORT_B

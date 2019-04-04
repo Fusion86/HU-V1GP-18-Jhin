@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     }
     else if (strcmp(argv[1], "rect") == 0)
     {
-        
+		j.draw_square();
     }
     else if (strcmp(argv[1], "vector") == 0)
     {

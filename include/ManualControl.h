@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Jhin.h"
-
 #include "BrickPi3.h"
 
 class ManualControl
