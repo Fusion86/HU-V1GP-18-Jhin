@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 11)
 project(jhin VERSION 0.2.0)
 add_definitions(-D jhin_VERSION="${jhin_VERSION}")
 
-include_directories(include)
+find_package(Curses REQUIRED)
+include_directories(include ${CURSES_INCLUDE_DIR})
 
 file(GLOB sources "src/*.cpp")
 set(jhin_SRC ${sources})
@@ -21,3 +22,4 @@ else()
 endif(FAKE_BRICKPI)
 
 add_executable(jhin ${jhin_SRC})
+target_link_libraries(jhin ${CURSES_LIBRARIES})

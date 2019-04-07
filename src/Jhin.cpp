@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <curses.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -71,70 +72,143 @@ void Jhin::motor_status()
 
 void Jhin::run()
 {
-    BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
-    BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
+    // BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
+    // BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
 
-    uint32_t rotate = 0;
+    // uint32_t rotate = 0;
 
-    uint32_t x_move = 0;
-    uint32_t x_pos = 0;
+    // uint32_t x_move = 0;
+    // uint32_t x_pos = 0;
 
-    uint32_t y_move = 0;
-    uint32_t y_pos = 0;
+    // uint32_t y_move = 0;
+    // uint32_t y_pos = 0;
 
-    std::string input;
+    // std::string input;
 
-    std::cout << "Calibrate pen\n"
-              << "Rotate pen with q and e, press shift to rotate faster.\n"
-              << "Press [enter] to confirm and continue."
-              << std::endl;
+    // std::cout << "Calibrate pen\n"
+    //           << "Rotate pen with q and e, press shift to rotate faster.\n"
+    //           << "Press [enter] to confirm and continue."
+    //           << std::endl;
 
+    // while (true)
+    // {
+    //     std::getline(std::cin, input);
+    //     if (input[0] == 'q')
+    //     {
+    //         rotate += 15;
+    //     }
+    //     else if (input[0] == 'e')
+    //     {
+    //         rotate -= 15;
+    //     }
+    //     else if (input[0] == 'w')
+    //     {
+    //         x_move += X_RAIL_LENGTH;
+    //     }
+    //     else if (input[0] == 's')
+    //     {
+    //         x_move -= X_RAIL_LENGTH;
+    //     }
+    //     else if (input[0] == 'a')
+    //     {
+    //         y_move += Y_RAIL_LENGTH;
+    //     }
+    //     else if (input[0] == 'd')
+    //     {
+    //         y_move -= Y_RAIL_LENGTH;
+    //     }
+    //     else if (input.empty())
+    //     {
+    //         break;
+    //     }
+
+    //     BP.set_motor_position_relative(PORT_PEN, rotate);
+
+    //     if (x_pos + x_move <= X_RAIL_LENGTH) {
+    //         BP.set_motor_position_relative(PORT_X, x_move);
+    //         x_pos += x_move;
+    //     }
+
+    //     if (y_pos + y_move <= Y_RAIL_LENGTH) {
+    //         BP.set_motor_position_relative(PORT_Y, y_move);
+    //         y_pos += y_move;
+    //     }
+
+    //     rotate = 0;
+    //     x_move = 0;
+    //     y_move = 0;
+    // }
+
+    // Setup state
+    int x = 0, y = 0, pen = 0;
+    int old_x = 0, old_y = 0, old_pen = 0;
+
+    // Setup curses TUI
+    // See http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html#using
+    initscr();
+    cbreak(); // Disable line buffering (aka get input without pressing enter)
+    noecho(); // Don't print pressed characters
+    // keypad(stdscr, TRUE); // Allow special keys, eg. arrows, function, enter
+    // nodelay(stdscr, TRUE);
+    curs_set(0); // Set cursor invisible
+
+    // Print initial UI
+    addstr("Manual robot control\n");
+    addstr("Move over axis with wasd\n");
+    addstr("Move pen up/down with q and e\n");
+    addstr("Exit with CTRL-C\n");
+
+    int ch;
     while (true)
     {
-        std::getline(std::cin, input);
-        if (input[0] == 'q')
+        // Clear lines to avoid leftover characters if the new
+        // printw string is shorter than the previous one
+        // TODO: This actually doesn't do anything (it dont work)
+        // see HACK below for the workaround
+        // clearline(5);
+
+        // Update UI
+        // HACK: The spaces after `Pen: %d` are there to overwrite any leftover characters
+        mvprintw(5, 0, "X:  %d    Y: %d    Pen: %d    ", x, y, pen);
+
+        ch = getch();
+        switch (ch)
         {
-            rotate += 15;
-        }
-        else if (input[0] == 'e')
-        {
-            rotate -= 15;
-        }
-        else if (input[0] == 'w')
-        {
-            x_move += X_RAIL_LENGTH;
-        }
-        else if (input[0] == 's')
-        {
-            x_move -= X_RAIL_LENGTH;
-        }
-        else if (input[0] == 'a')
-        {
-            y_move += Y_RAIL_LENGTH;
-        }
-        else if (input[0] == 'd')
-        {
-            y_move -= Y_RAIL_LENGTH;
-        }
-        else if (input.empty())
-        {
+        case 'w':
+            x = std::min(x + 10, X_RAIL_LENGTH);
+            break;
+        case 's':
+            x = std::max(x - 10, 0);
+            break;
+        case 'a':
+            y = std::min(y + 10, Y_RAIL_LENGTH);
+            break;
+        case 'd':
+            y = std::max(y - 10, 0);
+            break;
+        case 'q':
+            pen += 10;
+            break;
+        case 'e':
+            pen -= 10;
             break;
         }
 
-        BP.set_motor_position_relative(PORT_PEN, rotate);
-
-        if (x_pos + x_move <= X_RAIL_LENGTH) {
-            BP.set_motor_position_relative(PORT_X, x_move);
-            x_pos += x_move;
+        // Only update motors for wich the position changed
+        if (x != old_x)
+        {
+            // TODO: Do motor stuff
+            old_x = x;
         }
-
-        if (y_pos + y_move <= Y_RAIL_LENGTH) {
-            BP.set_motor_position_relative(PORT_Y, y_move);
-            y_pos += y_move;
+        if (y != old_y)
+        {
+            // TODO: Do motor stuff
+            old_y = y;
         }
-
-        rotate = 0;
-        x_move = 0;
-        y_move = 0;
+        if (pen != old_pen)
+        {
+            // TODO: Do motor stuff
+            old_pen = pen;
+        }
     }
 }
