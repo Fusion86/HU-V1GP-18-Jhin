@@ -19,6 +19,7 @@ Jhin::Jhin()
 void Jhin::reset()
 {
     BP.reset_all(); // Reset everything so there are no run-away motors
+    endwin();
 }
 
 void Jhin::print_help()
@@ -73,8 +74,8 @@ void Jhin::motor_status()
 
 void Jhin::run()
 {
-    // BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
-    // BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
+    BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
+    BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
 
     // uint32_t rotate = 0;
 
