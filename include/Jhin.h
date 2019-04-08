@@ -10,7 +10,7 @@
 #define X_MOTOR_SPEED 30
 #define Y_MOTOR_SPEED 60
 
-#define PEN_ROT_MAX 120
+#define PEN_ROT_MAX 140
 
 class Jhin
 {
