@@ -17,7 +17,10 @@ void MotorControl::move(int x, int y)
 {
     if (x != 0)
     {
-        int rel_move = std::max(std::min(x, X_RAIL_LENGTH - this->x), 0);
+        int rel_move = std::min(x, X_RAIL_LENGTH - this->x);
+
+        if (this->x + rel_move < 0)
+            rel_move = this->x * -1;
 
         this->x += rel_move;
         BP.set_motor_position_relative(PORT_X, rel_move);
@@ -25,7 +28,10 @@ void MotorControl::move(int x, int y)
 
     if (y != 0)
     {
-        int rel_move = std::max(std::min(y, Y_RAIL_LENGTH - this->y), 0);
+        int rel_move = std::min(y, Y_RAIL_LENGTH - this->y);
+
+        if (this->y + rel_move < 0)
+            rel_move = this->y * -1;
 
         this->y += rel_move;
         BP.set_motor_position_relative(PORT_Y, rel_move);
