@@ -14,6 +14,7 @@ Jhin::Jhin()
     BP = BrickPi3();
     BP.detect();
     Ctrl = MotorControl(BP);
+    Wammus = Wammus::Wammus(this);
 }
 
 void Jhin::reset()
@@ -30,7 +31,8 @@ void Jhin::print_help()
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
               << "  status - print motor status (rotation/power/etc)\n"
-              << "  run - temp dev function\n"
+              << "  manual_control - manually control motors\n"
+              << "  int - wammus interactive\n"
               << "\nDRAW COMMANDS:\n"
               << "  line - draw line\n"
               << "  rect - draw rectangle\n"
@@ -72,7 +74,7 @@ void Jhin::motor_status()
     BP.get_motor_status(PORT_PEN, pen_state, pen_power, pen_pos, pen_dps);
 }
 
-void Jhin::run()
+void Jhin::manual_control()
 {
     BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
     BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
@@ -111,19 +113,19 @@ void Jhin::run()
         {
         case 'w':
             // x = std::min(x + 10, X_RAIL_LENGTH);
-            Ctrl.move(10, 0);
+            Ctrl.move(STEP_SIZE, 0);
             break;
         case 's':
             // x = std::max(x - 10, 0);
-            Ctrl.move(-10, 0);
+            Ctrl.move(-STEP_SIZE, 0);
             break;
         case 'a':
             // y = std::min(y + 10, Y_RAIL_LENGTH);
-            Ctrl.move(0, 10);
+            Ctrl.move(0, STEP_SIZE);
             break;
         case 'd':
             // y = std::max(y - 10, 0);
-            Ctrl.move(0, -10);
+            Ctrl.move(0, -STEP_SIZE);
             break;
         case 'q':
             // pen += 10;

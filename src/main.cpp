@@ -15,7 +15,8 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        std::cerr << Color::ForegroundRed << "No argument given \n" << Color::Default << std::endl;
+        std::cerr << Color::ForegroundRed << "No argument given \n"
+                  << Color::Default << std::endl;
         j.print_help();
         return 1;
     }
@@ -30,11 +31,9 @@ int main(int argc, char **argv)
     }
     else if (strcmp(argv[1], "line") == 0)
     {
-
     }
     else if (strcmp(argv[1], "rect") == 0)
     {
-        
     }
     else if (strcmp(argv[1], "vector") == 0)
     {
@@ -48,10 +47,13 @@ int main(int argc, char **argv)
     {
         j.motor_status();
     }
-    else if (strcmp(argv[1], "run") == 0)
+    else if (strcmp(argv[1], "manual") == 0)
     {
-        // TODO: Split this into multiple functions
-        j.run();
+        j.manual_control();
+    }
+    else if (strcmp(argv[1], "int") == 0)
+    {
+        j.Wammus.prompt();
     }
 
     j.reset();

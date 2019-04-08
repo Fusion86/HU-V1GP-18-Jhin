@@ -1,5 +1,6 @@
 #include "BrickPi3.h"
 #include "MotorControl.h"
+#include "Wammus.h"
 
 #define PORT_PEN PORT_A
 #define PORT_X PORT_B
@@ -11,18 +12,21 @@
 #define Y_MOTOR_SPEED 60
 
 #define PEN_ROT_MAX 140
+#define STEP_SIZE 40
 
 class Jhin
 {
-public:
-  Jhin();
-  void reset();
-  void print_help();
-  void print_info();
-  void motor_status();
-  void run(); // Temp for development
+  public:
+    Wammus::Wammus Wammus;
 
-private:
-  BrickPi3 BP;
-  MotorControl Ctrl;
+    Jhin();
+    void reset();
+    void print_help();
+    void print_info();
+    void motor_status();
+    void manual_control();
+
+  private:
+    BrickPi3 BP;
+    MotorControl Ctrl;
 };
