@@ -13,6 +13,7 @@ Jhin::Jhin()
 {
     BP = BrickPi3();
     BP.detect();
+    Ctrl = MotorControl(BP);
 }
 
 void Jhin::reset()
@@ -169,46 +170,53 @@ void Jhin::run()
 
         // Update UI
         // HACK: The spaces after `Pen: %d` are there to overwrite any leftover characters
-        mvprintw(5, 0, "X:  %d    Y: %d    Pen: %d    ", x, y, pen);
+        mvprintw(5, 0, "X:  %d    Y: %d    Pen: %d    ",
+                 Ctrl.get_x(), Ctrl.get_y(), Ctrl.get_pen());
 
         ch = getch();
         switch (ch)
         {
         case 'w':
-            x = std::min(x + 10, X_RAIL_LENGTH);
+            // x = std::min(x + 10, X_RAIL_LENGTH);
+            Ctrl.move(10, 0);
             break;
         case 's':
-            x = std::max(x - 10, 0);
+            // x = std::max(x - 10, 0);
+            Ctrl.move(-10, 0);
             break;
         case 'a':
-            y = std::min(y + 10, Y_RAIL_LENGTH);
+            // y = std::min(y + 10, Y_RAIL_LENGTH);
+            Ctrl.move(0, 10);
             break;
         case 'd':
-            y = std::max(y - 10, 0);
+            // y = std::max(y - 10, 0);
+            Ctrl.move(0, -10);
             break;
         case 'q':
-            pen += 10;
+            // pen += 10;
+            Ctrl.toggle_pen();
             break;
         case 'e':
-            pen -= 10;
+            // pen -= 10;
+            Ctrl.toggle_pen();
             break;
         }
 
-        // Only update motors for wich the position changed
-        if (x != old_x)
-        {
-            // TODO: Do motor stuff
-            old_x = x;
-        }
-        if (y != old_y)
-        {
-            // TODO: Do motor stuff
-            old_y = y;
-        }
-        if (pen != old_pen)
-        {
-            // TODO: Do motor stuff
-            old_pen = pen;
-        }
+        // // Only update motors for wich the position changed
+        // if (x != old_x)
+        // {
+        //     // TODO: Do motor stuff
+        //     old_x = x;
+        // }
+        // if (y != old_y)
+        // {
+        //     // TODO: Do motor stuff
+        //     old_y = y;
+        // }
+        // if (pen != old_pen)
+        // {
+        //     // TODO: Do motor stuff
+        //     old_pen = pen;
+        // }
     }
 }

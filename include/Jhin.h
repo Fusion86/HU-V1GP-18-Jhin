@@ -1,4 +1,5 @@
 #include "BrickPi3.h"
+#include "MotorControl.h"
 
 #define PORT_PEN PORT_A
 #define PORT_X PORT_B
@@ -21,4 +22,5 @@ public:
 
 private:
   BrickPi3 BP;
+  MotorControl Ctrl;
 };
