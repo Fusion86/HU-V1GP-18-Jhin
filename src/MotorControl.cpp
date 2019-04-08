@@ -40,10 +40,21 @@ void MotorControl::move(int x, int y)
 
 void MotorControl::set_pos(int x, int y)
 {
+    move(x - this->x, y - this->y);
 }
 
 void MotorControl::toggle_pen()
 {
+    if (pen == 0)
+    {
+        BP.set_motor_position_relative(PORT_PEN, PEN_ROT_MAX);
+        pen = PEN_ROT_MAX;
+    }
+    else
+    {
+        BP.set_motor_position_relative(PORT_PEN, -PEN_ROT_MAX);
+        pen = 0;
+    }
 }
 
 int MotorControl::get_x()

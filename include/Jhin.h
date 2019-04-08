@@ -5,10 +5,12 @@
 #define PORT_X PORT_B
 #define PORT_Y PORT_C
 
-#define X_RAIL_LENGTH 344
-#define Y_RAIL_LENGTH 3820
+#define X_RAIL_LENGTH 760
+#define Y_RAIL_LENGTH 6970
 #define X_MOTOR_SPEED 30
 #define Y_MOTOR_SPEED 60
+
+#define PEN_ROT_MAX 120
 
 class Jhin
 {
