@@ -60,6 +60,7 @@ int Wammus::execute(std::string line)
 
     // Define variables used inside the switch statement
     int x, y;
+    bool is_down;
 
     // Split input on spaces
     std::istringstream iss(line);
@@ -96,10 +97,64 @@ int Wammus::execute(std::string line)
         Ctrl->move(x, y);
         break;
     case hash("set"):
+        if (cmd.size() < 3)
+        {
+            std::cout << "Not enough arguments!" << std::endl;
+            return 1;
+        }
+
+        if (cmd[1] == "~")
+            x = 0;
+        else
+            x = std::stoi(cmd[1]);
+
+        if (cmd[2] == "~")
+            y = 0;
+        else
+            y = std::stoi(cmd[2]);
+
+        Ctrl->set_pos(x, y);
         break;
     case hash("pen"):
+        if (cmd.size() < 2)
+        {
+            Ctrl->toggle_pen();
+            return 0;
+        }
+
+        is_down = Ctrl->get_pen() != 0;
+
+        if (cmd[1] == "1" && !is_down)
+            Ctrl->toggle_pen();
+        else if (cmd[1] == "0" && is_down)
+            Ctrl->toggle_pen();
+
         break;
     case hash("get"):
+        if (cmd.size() < 2)
+        {
+            std::cout << "Not enough arguments!" << std::endl;
+            return 1;
+        }
+
+        switch (hash(cmd[1].c_str()))
+        {
+        case hash("x"):
+            std::cout << Ctrl->get_x();
+            break;
+        case hash("y"):
+            std::cout << Ctrl->get_y();
+            break;
+        case hash("pen"):
+            std::cout << Ctrl->get_pen();
+            break;
+        case hash("pos"):
+            std::cout << Ctrl->get_x() << ", " << Ctrl->get_y();
+            break;
+        case hash("size"):
+            std::cout << Ctrl->get_x_max() << ", " << Ctrl->get_y_max();
+            break;
+        }
         break;
     case hash("reset"):
         Ctrl->reset_position();

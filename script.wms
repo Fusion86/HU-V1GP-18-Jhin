@@ -1,0 +1,17 @@
+roll 0 10
+move 0 10
+set ~ 10 # ~ means dont change
+pen 0 # pen up
+pen 1 # pen down
+pen # toggle pen
+get x
+get y
+get pen
+get pos
+get size # get canvas size
+reset # alias for `set 0 0` and `pen 0`
+quit
+exit
+version
+setsize 500 5000
+echo We done here

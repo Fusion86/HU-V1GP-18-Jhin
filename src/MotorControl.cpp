@@ -49,7 +49,10 @@ void MotorControl::move(int x, int y, bool blocking)
 
     // Wait for all motors
     if (blocking)
-        wait_for_all();
+    {
+        wait_for(PORT_X);
+        wait_for(PORT_Y);
+    }
 }
 
 void MotorControl::set_pos(int x, int y, bool blocking)
@@ -69,7 +72,7 @@ void MotorControl::toggle_pen()
         BP.set_motor_position_relative(PORT_PEN, -PEN_ROT_MAX);
         pen = 0;
     }
-    wait_for_all();
+    wait_for(PORT_PEN);
 }
 
 int MotorControl::get_x()
