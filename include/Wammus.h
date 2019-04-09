@@ -1,6 +1,8 @@
 #pragma once
 
-class Jhin; // Forward declare
+#include <string>
+
+#include "MotorControl.h"
 
 namespace Wammus
 {
@@ -8,12 +10,13 @@ class Wammus
 {
   public:
     Wammus();
-    Wammus(Jhin *parent);
+    Wammus(MotorControl *ctrl);
     int run_file(const char *path);
     void prompt();
+    int execute(std::string);
 
   private:
-    Jhin *J;
+    MotorControl *Ctrl;
 
     void print_banner();
 };

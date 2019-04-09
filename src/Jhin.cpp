@@ -1,12 +1,15 @@
 #include "Jhin.h"
 
+#include <fstream>
 #include <iostream>
 
 #include <curses.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <bits/stdc++.h>
 
 #include "BrickPi3.h"
+#include "ColorMod.h"
 #include "Utility.h"
 
 Jhin::Jhin()
@@ -14,11 +17,33 @@ Jhin::Jhin()
     BP = BrickPi3();
     BP.detect();
     Ctrl = MotorControl(BP);
-    Wammus = Wammus::Wammus(this);
+    Wammus = Wammus::Wammus(&Ctrl);
+
+    Ctrl.set_limits();
+
+    std::ifstream cfg("config.wms");
+
+    if (!cfg.good())
+    {
+        std::cout << Color::ForegroundRed << "Couldn't load config.wms!" << Color::Default << std::endl;
+    }
+    else
+    {
+        std::cout << "- Executing config.wms" << std::endl;
+
+        std::string line;
+        while (getline(cfg, line))
+        {
+            Wammus.execute(line);
+        }
+
+        std::cout << "- Finished executing config.wms" << std::endl;
+    }
 }
 
 void Jhin::reset()
 {
+    Ctrl.reset_position();
     BP.reset_all(); // Reset everything so there are no run-away motors
     endwin();
 }
@@ -31,7 +56,7 @@ void Jhin::print_help()
               << "  help - print this help page\n"
               << "  info - print info about device (serial/voltage/etc)\n"
               << "  status - print motor status (rotation/power/etc)\n"
-              << "  manual_control - manually control motors\n"
+              << "  manual - manually control motors\n"
               << "  int - wammus interactive\n"
               << "\nDRAW COMMANDS:\n"
               << "  line - draw line\n"
@@ -76,9 +101,6 @@ void Jhin::motor_status()
 
 void Jhin::manual_control()
 {
-    BP.set_motor_limits(PORT_X, X_MOTOR_SPEED, 0);
-    BP.set_motor_limits(PORT_Y, Y_MOTOR_SPEED, 0);
-
     // Setup curses TUI
     // See http://www.cs.ukzn.ac.za/~hughm/os/notes/ncurses.html#using
     initscr();
@@ -92,6 +114,7 @@ void Jhin::manual_control()
     addstr("Manual robot control\n");
     addstr("Move over axis with wasd\n");
     addstr("Move pen up/down with q and e\n");
+    addstr("Unlock canvas size limit (unsafe) with u\n");
     addstr("Exit with CTRL-C\n");
 
     int ch;
@@ -105,7 +128,7 @@ void Jhin::manual_control()
 
         // Update UI
         // HACK: The spaces after `Pen: %d` are there to overwrite any leftover characters
-        mvprintw(5, 0, "X:  %d    Y: %d    Pen: %d    ",
+        mvprintw(6, 0, "X:  %d    Y: %d    Pen: %d    ",
                  Ctrl.get_x(), Ctrl.get_y(), Ctrl.get_pen());
 
         ch = getch();
@@ -135,6 +158,11 @@ void Jhin::manual_control()
             // pen -= 10;
             Ctrl.toggle_pen();
             break;
+        case 'u':
+            Ctrl.set_size(INT_MAX, INT_MAX);
+            break;
         }
+
+        flushinp(); // Clear ncurses queued input
     }
 }
