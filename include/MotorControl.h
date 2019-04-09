@@ -10,10 +10,10 @@ class MotorControl
     MotorControl(BrickPi3 bp);
 
     // Move to relative position
-    void move(int x, int y, bool blocking = true);
+    void move(int x, int y, bool blocking = true, bool sync = false);
 
     // Set absolute position
-    void set_pos(int x, int y, bool blocking = true);
+    void set_pos(int x, int y, bool blocking = true, bool sync = false);
 
     // Toggle pen up/down
     void toggle_pen();
@@ -36,6 +36,8 @@ class MotorControl
     // Block till motors have finished moving
     void wait_for(uint8_t port);
     void wait_for_all();
+
+    void reset_brickpi();
 
   private:
     BrickPi3 BP;

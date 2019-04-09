@@ -17,6 +17,8 @@ class Wammus
 
   private:
     MotorControl *Ctrl;
+    bool blocking = true;
+    bool sync = true;
 
     void print_banner();
 };

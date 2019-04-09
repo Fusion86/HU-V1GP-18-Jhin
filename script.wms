@@ -15,3 +15,11 @@ exit
 version
 setsize 500 5000
 echo We done here
+blocking 1
+blocking 0
+blocking # toggle
+sync 0
+sync 1
+sync # toggle
+get sync
+get blocking

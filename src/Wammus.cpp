@@ -60,7 +60,7 @@ int Wammus::execute(std::string line)
 
     // Define variables used inside the switch statement
     int x, y;
-    bool is_down;
+    bool enabled;
 
     // Split input on spaces
     std::istringstream iss(line);
@@ -75,6 +75,8 @@ int Wammus::execute(std::string line)
         break;
     case hash("exit"):
     case hash("quit"):
+        Ctrl->reset_position();
+        Ctrl->reset_brickpi();
         exit(0);
     case hash("roll"):
     case hash("move"):
@@ -94,7 +96,7 @@ int Wammus::execute(std::string line)
         else
             y = std::stoi(cmd[2]);
 
-        Ctrl->move(x, y);
+        Ctrl->move(x, y, blocking, sync);
         break;
     case hash("set"):
         if (cmd.size() < 3)
@@ -104,16 +106,16 @@ int Wammus::execute(std::string line)
         }
 
         if (cmd[1] == "~")
-            x = 0;
+            x = Ctrl->get_x();
         else
             x = std::stoi(cmd[1]);
 
         if (cmd[2] == "~")
-            y = 0;
+            y = Ctrl->get_y();
         else
             y = std::stoi(cmd[2]);
 
-        Ctrl->set_pos(x, y);
+        Ctrl->set_pos(x, y, blocking, sync);
         break;
     case hash("pen"):
         if (cmd.size() < 2)
@@ -122,11 +124,11 @@ int Wammus::execute(std::string line)
             return 0;
         }
 
-        is_down = Ctrl->get_pen() != 0;
+        enabled = Ctrl->get_pen() != 0;
 
-        if (cmd[1] == "1" && !is_down)
+        if (cmd[1] == "1" && !enabled)
             Ctrl->toggle_pen();
-        else if (cmd[1] == "0" && is_down)
+        else if (cmd[1] == "0" && enabled)
             Ctrl->toggle_pen();
 
         break;
@@ -140,19 +142,25 @@ int Wammus::execute(std::string line)
         switch (hash(cmd[1].c_str()))
         {
         case hash("x"):
-            std::cout << Ctrl->get_x();
+            std::cout << Ctrl->get_x() << std::endl;
             break;
         case hash("y"):
-            std::cout << Ctrl->get_y();
+            std::cout << Ctrl->get_y() << std::endl;
             break;
         case hash("pen"):
-            std::cout << Ctrl->get_pen();
+            std::cout << Ctrl->get_pen() << std::endl;
             break;
         case hash("pos"):
-            std::cout << Ctrl->get_x() << ", " << Ctrl->get_y();
+            std::cout << Ctrl->get_x() << ", " << Ctrl->get_y() << std::endl;
             break;
         case hash("size"):
-            std::cout << Ctrl->get_x_max() << ", " << Ctrl->get_y_max();
+            std::cout << Ctrl->get_x_max() << ", " << Ctrl->get_y_max() << std::endl;
+            break;
+        case hash("blocking"):
+            std::cout << blocking << std::endl;
+            break;
+        case hash("sync"):
+            std::cout << sync << std::endl;
             break;
         }
         break;
@@ -175,6 +183,32 @@ int Wammus::execute(std::string line)
         for (int i = 1; i < cmd.size(); i++)
             std::cout << cmd[i] << " ";
         std::cout << std::endl;
+        break;
+    case hash("sync"):
+        if (cmd.size() < 2)
+        {
+            sync = !sync;
+            return 0;
+        }
+
+        if (cmd[1] == "1")
+            sync = 1;
+        else if (cmd[1] == "0")
+            sync = 0;
+
+        break;
+    case hash("blocking"):
+        if (cmd.size() < 2)
+        {
+            blocking = !blocking;
+            return 0;
+        }
+
+        if (cmd[1] == "1")
+            blocking = 1;
+        else if (cmd[1] == "0")
+            blocking = 0;
+
         break;
     default:
         std::cout << "Unknown command! Type help to see all commands." << std::endl;
