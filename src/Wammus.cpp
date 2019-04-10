@@ -1,11 +1,13 @@
 #include "Wammus.h"
 
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "ColorMod.h"
 #include "MotorControl.h"
 #include "Utility.h"
 
@@ -20,9 +22,26 @@ Wammus::Wammus(MotorControl *ctrl)
     Ctrl = ctrl;
 }
 
-int Wammus::run_file(const char *path)
+int Wammus::run_file(const char *cstr_pah)
 {
-    return 0;
+    std::string path(cstr_pah);
+    std::ifstream wms(path);
+
+    if (!wms.good())
+    {
+        std::cout << Color::ForegroundRed << "Couldn't load " << path << Color::Default << std::endl;
+        return 1;
+    }
+    else
+    {
+        std::string line;
+        while (getline(wms, line))
+        {
+            execute(line);
+        }
+
+        return 0;
+    }
 }
 
 void Wammus::prompt()
@@ -56,6 +75,10 @@ void Wammus::print_banner()
 int Wammus::execute(std::string line)
 {
     if (line.empty())
+        return 0;
+
+    // Ignore comments
+    if (line[0] == "#")
         return 0;
 
     // Define variables used inside the switch statement
@@ -177,7 +200,6 @@ int Wammus::execute(std::string line)
         x = std::stoi(cmd[1]);
         y = std::stoi(cmd[2]);
         Ctrl->set_size(x, y);
-        std::cout << "Set canvas size to " << x << ", " << y << std::endl;
         break;
     case hash("echo"):
         for (int i = 1; i < cmd.size(); i++)
@@ -209,6 +231,15 @@ int Wammus::execute(std::string line)
         else if (cmd[1] == "0")
             blocking = 0;
 
+        break;
+    case hash("exec"):
+        if (cmd.size() < 2)
+        {
+            std::cout << "Missing argument specifying file to execute!" << std::endl;
+            return 1;
+        }
+
+        run_file(cmd[1].c_str());
         break;
     default:
         std::cout << "Unknown command! Type help to see all commands." << std::endl;

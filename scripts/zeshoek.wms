@@ -1,0 +1,9 @@
+set 0 300
+pen
+set 0 700
+set 100 1000
+set 200 700
+set 200 300
+set 100 0
+set 0 300
+reset

@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     {
         if (argc < 3)
         {
-            std::cerr << Color::ForegroundRed << "No vector file specified" << Color::Default << std::endl;
+            std::cerr << Color::ForegroundRed << "No vector file specified!" << Color::Default << std::endl;
             return 1;
         }
     }
@@ -54,6 +54,16 @@ int main(int argc, char **argv)
     else if (strcmp(argv[1], "int") == 0)
     {
         j.Wammus.prompt();
+    }
+    else if (strcmp(argv[1], "exec") == 0)
+    {
+        if (argc < 3)
+        {
+            std::cerr << Color::ForegroundRed << "No wammus file specified!" << Color::Default << std::endl;
+            return 1;
+        }
+
+        j.Wammus.run_file(argv[2]);
     }
 
     j.reset();
