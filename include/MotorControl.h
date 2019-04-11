@@ -32,6 +32,8 @@ class MotorControl
     int get_pen();
     int get_x_max();
     int get_y_max();
+    int get_x_limit();
+    int get_y_limit();
 
     // Block till motors have finished moving
     void wait_for(uint8_t port);
@@ -46,4 +48,6 @@ class MotorControl
     int pen = 0;
     int x_max = 0;
     int y_max = 0;
+    int x_limit = 0;
+    int y_limit = 0;
 };

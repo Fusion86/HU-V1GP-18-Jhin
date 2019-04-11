@@ -134,6 +134,8 @@ void MotorControl::set_limits(int x_speed, int y_speed)
     if (y_speed > 90)
         y_speed = 90;
 
+    this->y_limit = y_speed;
+    this->x_limit = x_speed;
     BP.set_motor_limits(PORT_X, x_speed, 0);
     BP.set_motor_limits(PORT_Y, y_speed, 0);
     std::cout << "Set limits to " << x_speed << ", " << y_speed << std::endl;
@@ -179,17 +181,29 @@ void MotorControl::wait_for_all()
 
 void MotorControl::reset_position()
 {
-    set_limits(90, 90);
-    set_pos(0, 0, false);
-
     if (pen != 0)
         toggle_pen();
 
-    wait_for_all();
-    set_limits();
+    // Remember current limits
+    int x = this->x_limit;
+    int y = this->y_limit;
+
+    set_limits(90, 90);
+    set_pos(0, 0, true);
+    set_limits(x, y); // Set limits back to original value
 }
 
 void MotorControl::reset_brickpi()
 {
     BP.reset_all();
+}
+
+int MotorControl::get_x_limit()
+{
+    return x_limit;
+}
+
+int MotorControl::get_y_limit()
+{
+    return y_limit;
 }

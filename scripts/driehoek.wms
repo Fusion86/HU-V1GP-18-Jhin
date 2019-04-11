@@ -1,0 +1,11 @@
+echo Set options
+verbose 1
+sync 0
+
+pen 1
+setlimits 30 90
+set 200 0
+set 100 450
+setlimits 35 90
+set 0 0
+reset

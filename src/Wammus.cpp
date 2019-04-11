@@ -192,7 +192,7 @@ int Wammus::execute(std::string line)
             std::cout << sync << std::endl;
             break;
         case hash("limits"):
-            std::cout << "Not implemented yet" << std::endl;
+            std::cout << Ctrl->get_x_limit() << ", " << Ctrl->get_y_limit() << std::endl;
             break;
         }
         break;
