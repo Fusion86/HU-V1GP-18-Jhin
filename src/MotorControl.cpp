@@ -58,12 +58,12 @@ void MotorControl::move(int x, int y, bool blocking, bool sync)
         set_limits(X_MOTOR_SPEED, y_speed);
     }
 
-    if (x != 0)
+    if (rel_move_x != 0)
     {
         BP.set_motor_position_relative(PORT_X, rel_move_x);
     }
 
-    if (y != 0)
+    if (rel_move_y != 0)
     {
         BP.set_motor_position_relative(PORT_Y, rel_move_y);
     }
