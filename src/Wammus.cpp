@@ -81,6 +81,9 @@ int Wammus::execute(std::string line)
     if (line[0] == '#')
         return 0;
 
+    if (verbose)
+        std::cout << "[] " << line << std::endl;
+
     // Define variables used inside the switch statement
     int x, y;
     bool enabled;
@@ -185,6 +188,12 @@ int Wammus::execute(std::string line)
         case hash("sync"):
             std::cout << sync << std::endl;
             break;
+        case hash("verbose"):
+            std::cout << sync << std::endl;
+            break;
+        case hash("limits"):
+            std::cout << "Not implemented yet" << std::endl;
+            break;
         }
         break;
     case hash("reset"):
@@ -251,6 +260,19 @@ int Wammus::execute(std::string line)
         x = std::stoi(cmd[1]);
         y = std::stoi(cmd[2]);
         Ctrl->set_limits(x, y);
+        break;
+    case hash("verbose"):
+        if (cmd.size() < 2)
+        {
+            verbose = !verbose;
+            return 0;
+        }
+
+        if (cmd[1] == "1")
+            verbose = 1;
+        else if (cmd[1] == "0")
+            verbose = 0;
+
         break;
     default:
         std::cout << "Unknown command! Type help to see all commands." << std::endl;

@@ -7,5 +7,5 @@
 #define X_MOTOR_SPEED 20
 #define Y_MOTOR_SPEED 15
 
-#define PEN_ROT_MAX 140
+#define PEN_ROT_MAX 135
 #define STEP_SIZE 100

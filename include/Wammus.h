@@ -19,6 +19,7 @@ class Wammus
     MotorControl *Ctrl;
     bool blocking = true;
     bool sync = true;
+    bool verbose = false;
 
     void print_banner();
 };

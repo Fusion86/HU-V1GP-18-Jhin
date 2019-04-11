@@ -1,0 +1,100 @@
+echo Set options
+sync 0
+verbose 1
+
+# Y-axis 5 times larger than X-axis
+move 80 640 // offset so robot can move down and back from starting position
+pen 1
+
+echo First pass
+move 0 1000
+move 200 0
+move 0 -1000
+
+reset
+move 40 320 // offset so robot can move down and back from starting position
+pen 1
+
+echo Second pass
+move 100 0
+move 0 500
+move -100 0
+move 0 500
+move 0 500
+move 100 0
+move 0 -500
+move 100 0
+move 0 500
+move 100 0
+move 0 -500
+move 0 -500
+move -100 0
+move 0 -500
+move 100 0
+reset
+pen 1
+
+echo Third pass
+move 0 250
+move 50 0
+move 0 -250
+move 50 0
+move 50 0
+move 0 250
+move -50 0
+move 0 250
+move 50 0
+move 0 250
+move -50 0
+move -50 0
+move 0 -250
+move -50 0
+move 0 250
+move 0 250
+move 50 0
+move 0 250
+move -50 0
+move 0 250
+move 0 250
+move 50 0
+move 0 -250
+move 50 0
+move 0 250
+move 50 0
+move 0 -250
+move 0 -250
+move -50 0
+move 0 -250
+move 50 0
+move 50 0
+move 50 0
+move 0 250
+move -50 0
+move 0 250
+move 0 250
+move 50 0
+move 0 -250
+move 50 0
+move 0 250
+move 50 0
+move 0 -250
+move 0 -250
+move -50 0
+move 0 -250
+move 50 0
+move 0 -250
+move 0 -250
+move -50 0
+move 0 250
+move -50 0
+move -50 0
+move 0 -250
+move 50 0
+move 0 -250
+move -50 0
+move 0 -250
+move 50 0
+move 50 0
+move 0 250
+move 50 0
+move 0 -250

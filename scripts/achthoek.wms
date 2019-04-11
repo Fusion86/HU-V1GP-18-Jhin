@@ -1,0 +1,20 @@
+echo Setting options
+sync 0
+verbose 1
+
+echo Moving into position
+set 70 80 // Move to starting position
+pen 1
+
+echo Start drawing achthoek
+set 155 50 // Draw -
+set 215 350 // Draw \
+set 215 775 // Draw |
+set 155 1075 // Draw /
+set 70 1075 // Draw -
+set 10 775 // Draw \
+set 10 350 // Draw |
+set 70 50 // Draw /
+
+echo Done drawing achthoek
+reset

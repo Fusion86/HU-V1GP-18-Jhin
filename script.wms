@@ -26,3 +26,7 @@ get blocking
 exec rect.wms # execute file in working directory
 setlimits 90 70 # set x and y power limits to 90 and 70
 setlimits # reset limits to default
+verbose 0 # disable verbose
+verbose 1 # enable verbose, prints all commands that are being executed
+verbose # toggle verbose
+get verbose
