@@ -78,7 +78,7 @@ int Wammus::execute(std::string line)
         return 0;
 
     // Ignore comments
-    if (line[0] == "#")
+    if (line[0] == '#')
         return 0;
 
     // Define variables used inside the switch statement
@@ -240,6 +240,17 @@ int Wammus::execute(std::string line)
         }
 
         run_file(cmd[1].c_str());
+        break;
+    case hash("setlimits"):
+        if (cmd.size() < 3)
+        {
+            Ctrl->set_limits();
+            return 0;
+        }
+
+        x = std::stoi(cmd[1]);
+        y = std::stoi(cmd[2]);
+        Ctrl->set_limits(x, y);
         break;
     default:
         std::cout << "Unknown command! Type help to see all commands." << std::endl;

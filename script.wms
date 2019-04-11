@@ -24,3 +24,5 @@ sync # toggle
 get sync
 get blocking
 exec rect.wms # execute file in working directory
+setlimits 90 70 # set x and y power limits to 90 and 70
+setlimits # reset limits to default
