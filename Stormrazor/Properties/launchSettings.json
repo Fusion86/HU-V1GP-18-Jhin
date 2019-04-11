@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Stormrazor": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Wouter\\Desktop\\Doggo.svg\""
+    }
+  }
+}
