@@ -83,9 +83,9 @@ namespace Stormrazor
                     int x2 = (int)float.Parse(line.GetAttribute("x2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
                     int y2 = (int)float.Parse(line.GetAttribute("y2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
-                    tw.WriteLine($"move {(int)(x1 * scale)} {(int)(y1 * scale * scaleY)}");
+                    tw.WriteLine($"set {(int)(x1 * scale)} {(int)(y1 * scale * scaleY)}");
                     tw.WriteLine("pen 1");
-                    tw.WriteLine($"move {(int)(x2 * scale)} {(int)(y2 * scale * scaleY)}");
+                    tw.WriteLine($"set {(int)(x2 * scale)} {(int)(y2 * scale * scaleY)}");
                     tw.WriteLine("pen 0");
                 }
             }
