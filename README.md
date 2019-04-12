@@ -1,5 +1,10 @@
 # Jhin
 
+- [JhinV2](https://github.com/Fusion86/V1GP-18-Jhin/tree/v2) is the drawing robot
+- [Stormrazor](https://github.com/Fusion86/V1GP-18-Jhin/tree/stormrazor) is a SVG -> WMS (drawing script) converter
+- [Wammus](https://github.com/Fusion86/V1GP-18-Jhin/blob/v2/src/Wammus.cpp#L75) is the scriptengine that powers JhinV2
+
+
 ## How to compile
 
 ```sh

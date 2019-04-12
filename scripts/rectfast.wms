@@ -1,0 +1,26 @@
+echo Setting options
+verbose 1
+setlimits 90 90
+sync 0
+blocking 1
+
+pen
+# Draw rect
+set 0 1000
+set 200 ~
+set ~ 0
+set 0 0
+# Repeat this 3 more times
+set 0 1000
+set 200 ~
+set ~ 0
+set 0 0
+set 0 1000
+set 200 ~
+set ~ 0
+set 0 0
+set 0 1000
+set 200 ~
+set ~ 0
+set 0 0
+reset
