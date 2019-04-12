@@ -78,21 +78,31 @@ namespace Stormrazor
 
                 foreach (var line in lines)
                 {
-                    int x1 = (int)float.Parse(line.GetAttribute("x1"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
-                    int y1 = (int)float.Parse(line.GetAttribute("y1"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
-                    int x2 = (int)float.Parse(line.GetAttribute("x2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
-                    int y2 = (int)float.Parse(line.GetAttribute("y2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                    try
+                    {
+                        int x1 = (int)float.Parse(line.GetAttribute("x1"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                        int y1 = (int)float.Parse(line.GetAttribute("y1"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                        int x2 = (int)float.Parse(line.GetAttribute("x2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                        int y2 = (int)float.Parse(line.GetAttribute("y2"), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
-                    tw.WriteLine($"set {(int)(x1 * scale)} {(int)(y1 * scale * scaleY)}");
-                    tw.WriteLine("pen 1");
-                    tw.WriteLine($"set {(int)(x2 * scale)} {(int)(y2 * scale * scaleY)}");
-                    tw.WriteLine("pen 0");
+                        tw.WriteLine($"set {(int)(x1 * scale)} {(int)(y1 * scale * scaleY)}");
+                        tw.WriteLine("pen 1");
+                        tw.WriteLine($"set {(int)(x2 * scale)} {(int)(y2 * scale * scaleY)}");
+                        tw.WriteLine("pen 0");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error\n");
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine($"\nin element '{line}'");
+                        return 1;
+                    }
                 }
             }
 
             Console.WriteLine($"Wrote Wammus commands to {outFile}");
-            Console.WriteLine("Press enter to exit");
-            Console.ReadLine();
+            // Console.WriteLine("Press enter to exit");
+            // Console.ReadLine();
             return 0;
         }
     }
