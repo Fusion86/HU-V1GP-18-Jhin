@@ -7,59 +7,59 @@ sync 0
 blocking 1
 setlimits 60 60
 
-move 46 0
+set 46 0
 pen 1
-move 45 540
+set 45 540
 pen 0
-move 0 0
+set 0 0
 pen 1
-move 93 0
+set 93 0
 pen 0
-move 92 161
+set 92 161
 pen 1
-move 92 536
+set 92 536
 pen 0
-move 138 536
+set 138 536
 pen 1
-move 92 540
+set 92 540
 pen 0
-move 137 345
+set 137 345
 pen 1
-move 91 348
+set 91 348
 pen 0
-move 138 157
+set 138 157
 pen 1
-move 92 161
+set 92 161
 pen 0
-move 227 157
+set 227 157
 pen 1
-move 175 157
+set 175 157
 pen 0
-move 175 345
+set 175 345
 pen 1
-move 175 157
+set 175 157
 pen 0
-move 227 345
+set 227 345
 pen 1
-move 175 345
+set 175 345
 pen 0
-move 227 536
+set 227 536
 pen 1
-move 227 345
+set 227 345
 pen 0
-move 175 536
+set 175 536
 pen 1
-move 227 536
+set 227 536
 pen 0
-move 296 93
+set 296 93
 pen 1
-move 296 536
+set 296 536
 pen 0
-move 260 150
+set 260 150
 pen 1
-move 333 150
+set 333 150
 pen 0
-move 296 536
+set 296 536
 pen 1
-move 311 536
+set 311 536
 pen 0
